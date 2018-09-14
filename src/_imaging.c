@@ -914,14 +914,17 @@ _convert2(ImagingObject* self, PyObject* args)
 {
     ImagingObject* imagep1;
     ImagingObject* imagep2;
+    Imaging result;
     if (!PyArg_ParseTuple(args, "O!O!",
                           &Imaging_Type, &imagep1,
                           &Imaging_Type, &imagep2))
         return NULL;
 
-    if (!ImagingConvert2(imagep1->image, imagep2->image))
+    result = ImagingConvert2(imagep1->image, imagep2->image);
+    if (!result)
         return NULL;
 
+    ImagingDelete(result);
     Py_INCREF(Py_None);
     return Py_None;
 }

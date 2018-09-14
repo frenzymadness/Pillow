@@ -1042,8 +1042,10 @@ _gaussian_blur(ImagingObject* self, PyObject* args)
     if (!imOut)
         return NULL;
 
-    if (!ImagingGaussianBlur(imOut, imIn, radius, passes))
+    if (!ImagingGaussianBlur(imOut, imIn, radius, passes)) {
+        ImagingDelete(imOut);
         return NULL;
+    }
 
     return PyImagingNew(imOut);
 }
@@ -1931,8 +1933,10 @@ _box_blur(ImagingObject* self, PyObject* args)
     if (!imOut)
         return NULL;
 
-    if (!ImagingBoxBlur(imOut, imIn, radius, n))
+    if (!ImagingBoxBlur(imOut, imIn, radius, n)) {
+        ImagingDelete(imOut);
         return NULL;
+    }
 
     return PyImagingNew(imOut);
 }

@@ -584,11 +584,15 @@ PyImaging_ZipEncoderNew(PyObject* self, PyObject* args)
         dictionary = NULL;
 
     encoder = PyImaging_EncoderNew(sizeof(ZIPSTATE));
-    if (encoder == NULL)
+    if (encoder == NULL) {
+        free(dictionary);
         return NULL;
+    }
 
-    if (get_packer(encoder, mode, rawmode) < 0)
+    if (get_packer(encoder, mode, rawmode) < 0) {
+        free(dictionary);
         return NULL;
+    }
 
     encoder->encode = ImagingZipEncode;
     encoder->cleanup = ImagingZipEncodeCleanup;
